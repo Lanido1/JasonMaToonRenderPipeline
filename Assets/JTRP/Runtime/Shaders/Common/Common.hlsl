@@ -14,6 +14,7 @@ float StepAntiAliasing(float x, float y)
 {
 	float v = x - y;
 	return saturate(v / fwidth(v));//fwidth(x) = abs(ddx(x) + ddy(x))
+
 }
 
 #define SampleRampSignalLine(texture, u) (SAMPLE_TEXTURE2D_LOD(texture, s_linear_clamp_sampler, float2(u, 0.5), 0))
@@ -24,7 +25,7 @@ float StepAntiAliasing(float x, float y)
 
 float3 ProjectOnPlane(float3 vec, float3 normal)
 {
-    return vec - normal * dot(vec, normal);
+	return vec - normal * dot(vec, normal);
 }
 
 float2 Rotate_UV(float2 _uv, float _radian, float2 _piv, float _time)
@@ -40,9 +41,18 @@ uniform float _AntiPerspectiveIntensity;
 void AntiPerspective(inout float4 clipPos)
 {
 	float centerVSz = mul(UNITY_MATRIX_V, float4(UNITY_MATRIX_M._m03_m13_m23, 1.0)).z;
-    clipPos.xy *= lerp(1.0, abs(clipPos.w) / -centerVSz, _AntiPerspectiveIntensity);
+	clipPos.xy *= lerp(1.0, abs(clipPos.w) / - centerVSz, _AntiPerspectiveIntensity);
 }
 
+// ASE
+float2 UnStereo(float2 UV)
+{
+	#if UNITY_SINGLE_PASS_STEREO
+		float4 scaleOffset = unity_StereoScaleOffset[ unity_StereoEyeIndex ];
+		UV.xy = (UV.xy - scaleOffset.zw) / scaleOffset.xy;
+	#endif
+	return UV;
+}
 
 // ----------------------------------------------------------------------------
 // Color
@@ -90,15 +100,47 @@ float LinearEyeDepth(float z)
 // https://forum.unity.com/threads/what-does-unity-exactly-do-when-we-modify-z-buffer-value-using-sv_depth.526406/
 float LinearEyeDepthToOutDepth(float z)
 {
-    return (1 - _ZBufferParams.w * z) / (_ZBufferParams.z * z);
+	return(1 - _ZBufferParams.w * z) / (_ZBufferParams.z * z);
 }
 
 // Returns the forward (Right) direction of the current view in the world space.
 float3 GetViewRightDir()
 {
-    float4x4 viewMat = GetWorldToViewMatrix();
-    return viewMat[0].xyz;
+	float4x4 viewMat = GetWorldToViewMatrix();
+	return viewMat[0].xyz;
+}
+
+// ASE
+float3 InvertDepthDirHD(float3 In)
+{
+	float3 result = In;
+	#if !defined(ASE_SRP_VERSION) || ASE_SRP_VERSION <= 70301 || ASE_SRP_VERSION == 70503 || ASE_SRP_VERSION >= 80301
+		result *= float3(1, 1, -1);
+	#endif
+	return result;
+}
+
+float4x4 unity_CameraProjection;
+float4x4 unity_CameraInvProjection;
+float4x4 unity_WorldToCamera;
+float4x4 unity_CameraToWorld;
+
+// ASE
+float3 GetWorldPosFromDepthBuffer(float2 clipPos01, float cameraDepth)
+{
+	#ifdef UNITY_REVERSED_Z
+		float depth = (1.0 - cameraDepth);
+	#else
+		float depth = cameraDepth;
+	#endif
+	float3 screenPos_DepthBuffer = (float3(clipPos01, depth));
+	float4 clipPos = (float4((screenPos_DepthBuffer * 2.0 - 1.0), 1.0));
+	float4 viewPos = mul(unity_CameraInvProjection, clipPos);
+	float3 viewPosNorm = viewPos.xyz / viewPos.w;
+	float3 localInvertDepthDirHD = InvertDepthDirHD(viewPosNorm);
+	
+	return mul(unity_CameraToWorld, float4(localInvertDepthDirHD, 1.0)).xyz;
 }
 
 
-#endif // JTRP_COMMON
+#endif // JTRP_C

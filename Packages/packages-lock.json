@@ -84,7 +84,7 @@
       "url": "https://packages.unity.cn"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.8",
+      "version": "2.0.9",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -207,7 +207,7 @@
       "url": "https://packages.unity.cn"
     },
     "com.unity.test-framework": {
-      "version": "1.1.24",
+      "version": "1.1.27",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -257,6 +257,21 @@
         "com.unity.render-pipelines.core": "10.5.0"
       },
       "url": "https://packages.unity.cn"
+    },
+    "jp.co.psoft.pencil_4.hdrp.unity": {
+      "version": "file:jp.co.psoft.pencil_4.hdrp.unity@a0edac1e7e",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "jp.co.psoft.pencil_4.line.unity": "4.1.0",
+        "com.unity.render-pipelines.high-definition": "7.2.0"
+      }
+    },
+    "jp.co.psoft.pencil_4.line.unity": {
+      "version": "file:jp.co.psoft.pencil_4.line.unity@ac9ddab264",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

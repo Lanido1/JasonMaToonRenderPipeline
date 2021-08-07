@@ -16,12 +16,15 @@ struct GraphVertexOutput
 	float4 color: COLOR;
 };
 
+uniform float _HairZOffset;
 
 GraphVertexOutput vert(GraphVertexInput v)
 {
 	GraphVertexOutput o;
 	float3 positionWS = TransformObjectToWorld(v.vertex.xyz);
-	o.position = TransformWorldToHClip(positionWS);
+	float3 viewPos = TransformWorldToView(positionWS);
+	viewPos.z += _HairZOffset;
+	o.position = TransformWViewToHClip(viewPos);
 	// o.normal = TransformObjectToWorldNormal(v.normal);
 	// o.uv0 = v.texcoord0;
 	o.color = v.color;

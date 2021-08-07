@@ -115,7 +115,7 @@ float3 UTS_MainLightShadingGrademap(LightLoopContext lightLoopContext, FragInput
 //    float Set_ShadingGrade = saturate(_ShadingGradeMapLevel_var) * lerp(_HalfLambert_var, (_HalfLambert_var * saturate(1.0 + _Tweak_SystemShadowsLevel)), _Set_SystemShadowsToBase);
 
 #ifdef JTRP_FACE_SHADER
-    GetJTRPHairShadow(Set_ShadingGrade, input.positionSS.xyz, lightDirection);
+    GetJTRPHairShadow(Set_ShadingGrade, posInput, lightDirection);
 #endif
 
 

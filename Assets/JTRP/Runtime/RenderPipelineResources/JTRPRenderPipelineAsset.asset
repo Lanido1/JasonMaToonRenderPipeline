@@ -447,14 +447,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b845c4a49bd4ca7479c55875e1966ac6, type: 2}
   - {fileID: 11400000, guid: 4e40a6975c2cefc45993fc4b82269959, type: 2}
   beforeTransparentCustomPostProcesses:
-  - Pencil_4.HDRP.PencilLine, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+  - Pencil_4.HDRP.PencilLine, PSOFT.Pencil_4_HDRP.Runtime, Version=0.0.0.0, Culture=neutral,
     PublicKeyToken=null
   beforeTAACustomPostProcesses: []
   beforePostProcessCustomPostProcesses:
-  - Pencil_4.HDRP.PencilLine_BeforePostProcess, Assembly-CSharp, Version=0.0.0.0,
+  - Pencil_4.HDRP.PencilLine_BeforePostProcess, PSOFT.Pencil_4_HDRP.Runtime, Version=0.0.0.0,
     Culture=neutral, PublicKeyToken=null
   afterPostProcessCustomPostProcesses:
-  - Pencil_4.HDRP.PencilLine_AfterPostProcess, Assembly-CSharp, Version=0.0.0.0,
+  - Pencil_4.HDRP.PencilLine_AfterPostProcess, PSOFT.Pencil_4_HDRP.Runtime, Version=0.0.0.0,
     Culture=neutral, PublicKeyToken=null
   virtualTexturingSettings:
     streamingCpuCacheSizeInMegaBytes: 256

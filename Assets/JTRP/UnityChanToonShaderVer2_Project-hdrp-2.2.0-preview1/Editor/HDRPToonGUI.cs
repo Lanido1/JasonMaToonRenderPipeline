@@ -108,10 +108,8 @@ namespace UnityEditor.Rendering.HDRP.Toon
 		const string ShaderDefineIS_TRANSCLIPPING_OFF = "_IS_TRANSCLIPPING_OFF";
 		const string ShaderDefineIS_TRANSCLIPPING_ON  = "_IS_TRANSCLIPPING_ON";
 
-
 		const string STR_ONSTATE  = "Active";
 		const string STR_OFFSTATE = "Off";
-
 
 		// JTRP
 		const string ShaderPropIs_LightIntensity           = "_LightIntensity";
@@ -120,20 +118,22 @@ namespace UnityEditor.Rendering.HDRP.Toon
 		const string ShaderPropIs_FaceShadowBias           = "_FaceShadowBias";
 		const string ShaderPropIs_CullMode                 = "_CullMode";
 
-		const string ShaderPropIs_EnableRayTracingShadow       = "_EnableRayTracingShadow";
-		const string ShaderPropIs_IsHair                       = "_IsHair";
-		const string ShaderPropIs_IsFace                       = "_IsFace";
-		const string ShaderPropIs_HairShadowWidth              = "_HairShadowWidth";
-		const string ShaderPropIs_HairShadowWidthRamp          = "_HairShadowWidthRamp";
-		const string ShaderPropIs_HairShadowRampMaxDistance    = "_HairShadowRampMaxDistance";
-		const string ShaderPropIs_SphericalShadowNormalScale     = "_SphericalShadowNormalScale";
-		const string ShaderPropIs_SphericalShadowIntensity = "_SphericalShadowIntensity";
-
+		const string ShaderPropIs_EnableRayTracingShadow     = "_EnableRayTracingShadow";
+		const string ShaderPropIs_IsHair                     = "_IsHair";
+		const string ShaderPropIs_IsFace                     = "_IsFace";
+		const string ShaderPropIs_HairShadowWidth            = "_HairShadowWidth";
+		const string ShaderPropIs_HairShadowWidthRamp        = "_HairShadowWidthRamp";
+		const string ShaderPropIs_HairShadowBias             = "_HairShadowBias";
+		const string ShaderPropIs_HairZOffset                = "_HairZOffset";
+		const string ShaderPropIs_HairShadowRampMaxDistance  = "_HairShadowRampMaxDistance";
+		const string ShaderPropIs_SphericalShadowNormalScale = "_SphericalShadowNormalScale";
+		const string ShaderPropIs_SphericalShadowIntensity   = "_SphericalShadowIntensity";
 
 		const string ShaderPass_JTRPFace = "JTRPFace";
 		const string ShaderPass_JTRPMask = "JTRPMask";
 
 		#endregion
+
 
 		#region enum
 
@@ -195,7 +195,6 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			Always,       //  Always pass depth or stencil test.
 		}
 
-
 		public enum _OutlineMode
 		{
 			NormalDirection,
@@ -217,6 +216,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 
 		#endregion
 
+
 		// variables which must be gotten from shader at the beggning of GUI
 		public int _autoRenderQueue = 1;
 
@@ -232,11 +232,9 @@ namespace UnityEditor.Rendering.HDRP.Toon
 		AssetImporter _outlineWidthAssetImporter;
 		AssetImporter _hairShadowWidthAssetImporter;
 
-
 		//ボタンサイズ.
-		public GUILayoutOption[] shortButtonStyle  = new GUILayoutOption[] {GUILayout.Width(130)};
-		public GUILayoutOption[] middleButtonStyle = new GUILayoutOption[] {GUILayout.Width(130)};
-
+		public GUILayoutOption[] shortButtonStyle  = new GUILayoutOption[] { GUILayout.Width(130) };
+		public GUILayoutOption[] middleButtonStyle = new GUILayoutOption[] { GUILayout.Width(130) };
 
 		//
 		static _UTS_Transparent _Transparent_Setting;
@@ -247,6 +245,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 
 		//メッセージ表示用.
 		bool _Use_VrcRecommend = false;
+
 
 		#region Foldout
 
@@ -271,6 +270,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 		static bool _AdditionalLightingSettings_Foldout = false;
 
 		#endregion
+
 
 		#region MaterialProperty
 
@@ -363,7 +363,6 @@ namespace UnityEditor.Rendering.HDRP.Toon
 		MaterialProperty offset_X_Axis_BLD              = null;
 		MaterialProperty offset_Y_Axis_BLD              = null;
 
-
 		// JTRP
 		MaterialProperty lightIntensity           = null;
 		MaterialProperty antiPerspectiveIntensity = null;
@@ -375,16 +374,19 @@ namespace UnityEditor.Rendering.HDRP.Toon
 
 		MaterialProperty utsTechniqe = null;
 
-		MaterialProperty enableRayTracingShadow       = null;
-		MaterialProperty isHair                       = null;
-		MaterialProperty isFace                       = null;
-		MaterialProperty hairShadowWidth              = null;
-		MaterialProperty hairShadowWidthRamp          = null;
-		MaterialProperty hairShadowRampMaxDistance    = null;
-		MaterialProperty sphericalShadowNormalScale     = null;
-		MaterialProperty sphericalShadowIntensity = null;
+		MaterialProperty enableRayTracingShadow     = null;
+		MaterialProperty isHair                     = null;
+		MaterialProperty isFace                     = null;
+		MaterialProperty hairShadowWidth            = null;
+		MaterialProperty hairShadowWidthRamp        = null;
+		MaterialProperty hairShadowRampMaxDistance  = null;
+		MaterialProperty hairShadowBias             = null;
+		MaterialProperty hairZOffset                = null;
+		MaterialProperty sphericalShadowNormalScale = null;
+		MaterialProperty sphericalShadowIntensity   = null;
 
 		#endregion
+
 
 		//------------------------------------------------------
 		const int      HDRPGeometryMin = 2650; // UnityEngine.Rendering.RenderQueue.Geometry;
@@ -400,8 +402,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 					bRet = ((_UTS_ClippingMode) material.GetInt(ShaderPropClippingMode) != _UTS_ClippingMode.Off);
 					break;
 				case _UTS_Technique.ShadingGradeMap:
-					bRet = (_UTS_TransClippingMode) material.GetInt(ShaderPropClippingMode) !=
-					       _UTS_TransClippingMode.Off;
+					bRet = (_UTS_TransClippingMode) material.GetInt(ShaderPropClippingMode) != _UTS_TransClippingMode.Off;
 					break;
 			}
 
@@ -436,27 +437,29 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			}
 		}
 
+
 		#region GUIContent
 
 		public static GUIContent transparentModeText = new GUIContent("Transparent Mode",
-		                                                              "Transparent  mode that fits you. ");
+																	  "Transparent  mode that fits you. ");
 
 		public static GUIContent workflowModeText = new GUIContent("Workflow Mode",
-		                                                           "Select a workflow that fits your textures. Choose between DoubleShadeWithFeather or ShadingGradeMap.");
+																   "Select a workflow that fits your textures. Choose between DoubleShadeWithFeather or ShadingGradeMap.");
 
 		// -----------------------------------------------------
 		public static GUIContent clippingmodeModeText0 = new GUIContent("Clipping Mode",
-		                                                                "Select clipping mode that fits you. ");
+																		"Select clipping mode that fits you. ");
 
 		public static GUIContent clippingmodeModeText1 = new GUIContent("Trans Clipping",
-		                                                                "Select clipping mode that fits you. ");
+																		"Select clipping mode that fits you. ");
 
 		public static GUIContent stencilmodeModeText = new GUIContent("Stencil Mode",
-		                                                              "Select stencil mode that fits you. ");
+																	  "Select stencil mode that fits you. ");
 
 		private static readonly int _transparentEnabled = Shader.PropertyToID(ShaderPropTransparentEnabled);
 
 		#endregion
+
 
 		//m_MaterialEditorのメソッドをUIとして使うもののみを指定する.
 		private MaterialProperty[] props;
@@ -551,7 +554,6 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			offset_X_Axis_BLD = FindProperty("_Offset_X_Axis_BLD", props);
 			offset_Y_Axis_BLD = FindProperty("_Offset_Y_Axis_BLD", props);
 
-
 			// JTRP
 			lightIntensity = FindProperty(ShaderPropIs_LightIntensity, props);
 			antiPerspectiveIntensity = FindProperty(ShaderPropIs_AntiPerspectiveIntensity, props);
@@ -568,11 +570,14 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			hairShadowWidth = FindProperty(ShaderPropIs_HairShadowWidth, props);
 			hairShadowWidthRamp = FindProperty(ShaderPropIs_HairShadowWidthRamp, props);
 			hairShadowRampMaxDistance = FindProperty(ShaderPropIs_HairShadowRampMaxDistance, props);
+			hairShadowBias = FindProperty(ShaderPropIs_HairShadowBias, props);
+			hairZOffset = FindProperty(ShaderPropIs_HairZOffset, props);
 			sphericalShadowNormalScale = FindProperty(ShaderPropIs_SphericalShadowNormalScale, props);
 			sphericalShadowIntensity = FindProperty(ShaderPropIs_SphericalShadowIntensity, props);
 
 			FindTessellationProperties(props);
 		}
+
 
 		#region Utilities
 
@@ -641,7 +646,6 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			return display;
 		}
 
-
 		// --------------------------------
 		//m_MaterialEditorのメソッドをUIとして使うもののみを指定する. 1行表示のテクスチャ＆カラー指定用.
 		private static class Styles
@@ -679,15 +683,15 @@ namespace UnityEditor.Rendering.HDRP.Toon
 
 			public static GUIContent shadingGradeMapText =
 				new GUIContent("Shading Grade Map(0-0.5:Easier to darken 0.5-1: Easier to brighten)",
-				               "影のかかり方マップ。UV座標で影のかかりやすい場所を指定する。Shading Grade Map : Texture(linear)");
+							   "影のかかり方マップ。UV座標で影のかかりやすい場所を指定する。Shading Grade Map : Texture(linear)");
 
 			public static GUIContent firstPositionMapText =
 				new GUIContent("1st Shade Position Map",
-				               "1影色領域に落ちる固定影の位置を、UV座標で指定する。1st Position Map : Texture(linear)");
+							   "1影色領域に落ちる固定影の位置を、UV座標で指定する。1st Position Map : Texture(linear)");
 
 			public static GUIContent secondPositionMapText =
 				new GUIContent("2nd Shade Position Map",
-				               "2影色領域に落ちる固定影の位置を、UV座標で指定する。2nd Position Map : Texture(linear)");
+							   "2影色領域に落ちる固定影の位置を、UV座標で指定する。2nd Position Map : Texture(linear)");
 
 			public static GUIContent outlineSamplerText =
 				new GUIContent("Outline Sampler", "Outline Sampler : Texture(linear)");
@@ -697,7 +701,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 
 			public static GUIContent bakedNormalOutlineText =
 				new GUIContent("Baked NormalMap for Outline",
-				               "Unpacked Normal Map : Texture(linear) ※通常のノーマルマップではないので注意");
+							   "Unpacked Normal Map : Texture(linear) ※通常のノーマルマップではないので注意");
 
 			public static GUIContent clippingMaskText =
 				new GUIContent("Clipping Mask", "Clipping Mask : Texture(linear)");
@@ -706,6 +710,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 		// --------------------------------
 
 		#endregion
+
 
 		public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] props)
 		{
@@ -786,7 +791,6 @@ namespace UnityEditor.Rendering.HDRP.Toon
 
 			EditorGUILayout.Space();
 
-
 			_BasicShaderSettings_Foldout = Foldout(_BasicShaderSettings_Foldout, "Basic Shader Settings");
 			if (_BasicShaderSettings_Foldout)
 			{
@@ -800,7 +804,6 @@ namespace UnityEditor.Rendering.HDRP.Toon
 					GUI_StencilMode(materials);
 				}
 
-
 				switch (technique)
 				{
 					case _UTS_Technique.DoubleShadeWithFeather:
@@ -810,7 +813,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 					case _UTS_Technique.ShadingGradeMap:
 						GUILayout.Label("TransClipping Shader", EditorStyles.boldLabel);
 						DoPopup(clippingmodeModeText1, clippingMode,
-						        System.Enum.GetNames(typeof(_UTS_TransClippingMode)));
+								System.Enum.GetNames(typeof(_UTS_TransClippingMode)));
 						break;
 				}
 
@@ -873,7 +876,6 @@ namespace UnityEditor.Rendering.HDRP.Toon
 
 			EditorGUILayout.Space();
 
-
 			EditorGUILayout.Space();
 
 			_RimLight_Foldout = Foldout(_RimLight_Foldout, "【RimLight Settings】");
@@ -922,7 +924,6 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			}
 
 			EditorGUILayout.Space();
-
 
 			if (material.HasProperty(ShaderPropOutline) && _Transparent_Setting != _UTS_Transparent.On)
 			{
@@ -1032,14 +1033,15 @@ namespace UnityEditor.Rendering.HDRP.Toon
 
 			m_MaterialEditor.RangeProperty(hairShadowWidth, hairShadowWidth.displayName);
 			JTRP.ShaderDrawer.Func.RampProperty(hairShadowWidthRamp, hairShadowWidthRamp.displayName, m_MaterialEditor, _hairShadowWidthGradient,
-			                                    _hairShadowWidthAssetImporter);
+												_hairShadowWidthAssetImporter);
 			m_MaterialEditor.FloatProperty(hairShadowRampMaxDistance, hairShadowRampMaxDistance.displayName);
+			m_MaterialEditor.RangeProperty(hairShadowBias, hairShadowBias.displayName);
+			m_MaterialEditor.FloatProperty(hairZOffset, hairZOffset.displayName);
 			m_MaterialEditor.RangeProperty(faceShadowBias, faceShadowBias.displayName);
-			
+
 			EditorGUILayout.Space();
 			m_MaterialEditor.RangeProperty(sphericalShadowIntensity, sphericalShadowIntensity.displayName);
 			m_MaterialEditor.VectorProperty(sphericalShadowNormalScale, sphericalShadowNormalScale.displayName);
-			
 
 			EditorGUILayout.Space();
 			GUILayout.Label("Anti-Perspective", EditorStyles.boldLabel);
@@ -1050,9 +1052,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 
 		// End of OnGUI()
 
-
 		// --------------------------------
-
 
 		void OpenManualLink()
 		{
@@ -1134,9 +1134,9 @@ namespace UnityEditor.Rendering.HDRP.Toon
 				if (_Transparent_Setting == _UTS_Transparent.On)
 				{
 					material.SetInt(ShaderPropClippingMode,
-					                utsTechniqe.floatValue == (int) _UTS_Technique.DoubleShadeWithFeather
-						                ? (int) _UTS_ClippingMode.TransClippingMode
-						                : (int) _UTS_TransClippingMode.On);
+									utsTechniqe.floatValue == (int) _UTS_Technique.DoubleShadeWithFeather
+										? (int) _UTS_ClippingMode.TransClippingMode
+										: (int) _UTS_TransClippingMode.On);
 					material.SetInt(_ZWriteMode, 0);
 					material.SetFloat(_ZOverDrawMode, 1);
 				}
@@ -1553,10 +1553,10 @@ namespace UnityEditor.Rendering.HDRP.Toon
 					{
 						material.SetFloat(ShaderProp1st_ShadeColor_Step, material.GetFloat(ShaderPropBaseColor_Step));
 						material.SetFloat(ShaderProp1st_ShadeColor_Feather,
-						                  material.GetFloat(ShaderPropBaseShade_Feather));
+										  material.GetFloat(ShaderPropBaseShade_Feather));
 						material.SetFloat(ShaderProp2nd_ShadeColor_Step, material.GetFloat(ShaderPropShadeColor_Step));
 						material.SetFloat(ShaderProp2nd_ShadeColor_Feather,
-						                  material.GetFloat(ShaderProp1st2nd_Shades_Feather));
+										  material.GetFloat(ShaderProp1st2nd_Shades_Feather));
 					}
 				}
 				else if ((int) prop.floatValue == (int) _UTS_Technique.ShadingGradeMap)
@@ -1572,10 +1572,10 @@ namespace UnityEditor.Rendering.HDRP.Toon
 					{
 						material.SetFloat(ShaderPropBaseColor_Step, material.GetFloat(ShaderProp1st_ShadeColor_Step));
 						material.SetFloat(ShaderPropBaseShade_Feather,
-						                  material.GetFloat(ShaderProp1st_ShadeColor_Feather));
+										  material.GetFloat(ShaderProp1st_ShadeColor_Feather));
 						material.SetFloat(ShaderPropShadeColor_Step, material.GetFloat(ShaderProp2nd_ShadeColor_Step));
 						material.SetFloat(ShaderProp1st2nd_Shades_Feather,
-						                  material.GetFloat(ShaderProp2nd_ShadeColor_Feather));
+										  material.GetFloat(ShaderProp2nd_ShadeColor_Feather));
 					}
 				}
 				else
@@ -1603,7 +1603,6 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			EditorGUILayout.Space();
 		}
 
-
 		void GUI_HighColor(Material[] materials)
 		{
 			m_MaterialEditor.TexturePropertySingleLine(Styles.highColorText, highColor_Tex, highColor);
@@ -1616,7 +1615,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 				var prop_BlendAddToHiColor = FindProperty(ShaderPropIs_BlendAddToHiColor, props);
 				var prop_SpecularToHighColor = FindProperty(ShaderPropIs_SpecularToHighColor, props);
 				GUI_Button(null, prop_SpecularToHighColor,
-				           (flag) => { prop_BlendAddToHiColor.floatValue = flag ? 1 : 0; });
+						   (flag) => { prop_BlendAddToHiColor.floatValue = flag ? 1 : 0; });
 				EditorGUILayout.EndHorizontal();
 
 				EditorGUILayout.BeginHorizontal();
@@ -1939,7 +1938,6 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			}
 		}
 
-
 		void ApplyAngelRing(Material material)
 		{
 			int angelRingEnabled = material.GetInt(ShaderPropAngelRing);
@@ -2242,7 +2240,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 				{
 					foreach (var material in materials)
 						material.SetShaderPassEnabled(srpDefaultLightModeName, isOutlineEnabled =
-							                              (flag ? false : true));
+														  (flag ? false : true));
 				}
 
 				EditorGUILayout.EndHorizontal();
@@ -2259,7 +2257,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			EditorGUI.BeginChangeCheck();
 			var newValue =
 				(int) (_OutlineMode) EditorGUILayout.EnumPopup("Outline Mode",
-				                                               (_OutlineMode) (int) outlineMode.floatValue);
+															   (_OutlineMode) (int) outlineMode.floatValue);
 			EditorGUI.showMixedValue = false;
 			//値が変化したらマテリアルに書き込み.
 			if (EditorGUI.EndChangeCheck())
@@ -2278,7 +2276,7 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			m_MaterialEditor.FloatProperty(outline_Width, "Outline Width");
 
 			JTRP.ShaderDrawer.Func.RampProperty(outline_Width_Ramp, "Outline Width Ramp", m_MaterialEditor, _outlineWidthGradient,
-			                                    _outlineWidthAssetImporter);
+												_outlineWidthAssetImporter);
 
 			m_MaterialEditor.FloatProperty(outline_Ramp_Max_Distance, "Outline Ramp Max Distance");
 			m_MaterialEditor.ColorProperty(outline_Color, "Outline Color");
@@ -2442,11 +2440,12 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			EditorGUILayout.Space();
 		}
 
-
-		private MaterialProperty GUI_Button(string            name, MaterialProperty prop = null,
-		                                    UnityAction<bool> callback = null,
-		                                    string            off      = STR_OFFSTATE, string on = STR_ONSTATE,
-		                                    GUILayoutOption[] style    = null)
+		private MaterialProperty GUI_Button(string            name,
+											MaterialProperty  prop     = null,
+											UnityAction<bool> callback = null,
+											string            off      = STR_OFFSTATE,
+											string            on       = STR_ONSTATE,
+											GUILayoutOption[] style    = null)
 		{
 			if (prop == null) prop = FindProperty(name, props);
 			var hasMix = prop.hasMixedValue;
@@ -2465,8 +2464,10 @@ namespace UnityEditor.Rendering.HDRP.Toon
 			DoPopup(label, property, options, m_MaterialEditor);
 		}
 
-		public static void DoPopup(GUIContent     label, MaterialProperty property, string[] options,
-		                           MaterialEditor materialEditor)
+		public static void DoPopup(GUIContent       label,
+								   MaterialProperty property,
+								   string[]         options,
+								   MaterialEditor   materialEditor)
 		{
 			if (property == null)
 				throw new System.ArgumentNullException("property");

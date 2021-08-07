@@ -23,8 +23,8 @@ Material:
   m_Name: ERU_hair_tex
   m_Shader: {fileID: 4800000, guid: 873188af6a7b5ca49aa69929a5d863c1, type: 3}
   m_ShaderKeywords: N_F_CS_ON N_F_ESSR_ON N_F_ESSS_ON N_F_PAL_ON N_F_RELGI_ON N_F_SS_ON
-    _DISABLE_SSR_TRANSPARENT _EMISSIVE_SIMPLE _IS_ANGELRING_OFF _IS_OUTLINE_CLIPPING_NO
-    _IS_TRANSCLIPPING_OFF _NORMALMAP_TANGENT_SPACE _OUTLINE_NML _SHADINGGRADEMAP
+    _DISABLE_SSR_TRANSPARENT _EMISSIVE_SIMPLE _IS_ANGELRING_OFF _IS_CLIPPING_OFF
+    _IS_OUTLINE_CLIPPING_NO _NORMALMAP_TANGENT_SPACE _OUTLINE_NML
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -111,18 +111,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _HairHighLightGradientRamp:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _HairHighLightMaskRamp:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _HairHighLightOffsetRamp:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _HairShadowWidthRamp:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -132,10 +120,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HighColor_Tex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _HighLightMaskMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -231,14 +215,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SSRimMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SSRimWidthRamp:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SecondaryCutout:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -292,10 +268,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SubsurfaceMaskMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _TangentDirMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -425,10 +397,7 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
-    - _EnableRayTracingShadow: 1
-    - _EnableSSRim: 0
     - _EnableShadowColorRamp: 0
-    - _EnableTangentHighLight: 0
     - _EnableTextureTransparent: 0
     - _Enable_HighLight: 0
     - _EnergyConservingSpecularColor: 1
@@ -450,8 +419,6 @@ Material:
     - _GlossTextureRotate: 0
     - _GlossTextureSoftness: 0
     - _Glossiness: 0.6
-    - _GradientRampIntensity: 0
-    - _HairHighLightIntensityInShadow: 0.5
     - _HairShadowRampMaxDistance: 10
     - _HairShadowWidth: 1
     - _HdrpVersion: 2
@@ -472,16 +439,7 @@ Material:
     - _HighColorPointInt2: 0.005
     - _HighColor_Power: 0
     - _HighLightFeather1: 0.001
-    - _HighLightMaskGradientScale: 0
-    - _HighLightMaskIntensity: 0
-    - _HighLightMaskMapUV2: 1
-    - _HighLightMaskOffsetIntensity: 0
-    - _HighLightMaskWidthIntensity: 0
     - _HighLightPower2: 888
-    - _HighLightRimOffset: 0
-    - _HighLightRimPower: 2
-    - _HighLightRimThreshold: 0.93
-    - _HighLightRimWidth: 0.06
     - _HighLightStep1: 0.99
     - _HighLight_Mode: 0
     - _HighlightColorPower: 0
@@ -660,13 +618,6 @@ Material:
     - _SSRefGBu: 2
     - _SSRefMoVe: 32
     - _SSRefractionProjectionModel: 0
-    - _SSRimFeather: 1
-    - _SSRimInShadow: 0.5
-    - _SSRimIntensity: 1
-    - _SSRimInvertLightDir: 0
-    - _SSRimLength: 0
-    - _SSRimRampMaxDistance: 10
-    - _SSRimWidth: 1
     - _STIL: 0
     - _Saturation: 1
     - _Scroll_EmissiveU: 0
@@ -710,9 +661,6 @@ Material:
     - _SpecularAAScreenSpaceVariance: 0.1
     - _SpecularAAThreshold: 0.2
     - _SpecularOcclusionMode: 1
-    - _SphericalShadowIntensity: 0
-    - _SphericalTangentIntensity: 0
-    - _SphericalTangentProjectionIntensity: 0
     - _SrcBlend: 1
     - _StencilComp: 0
     - _StencilCompare: 8
@@ -738,11 +686,6 @@ Material:
     - _TEXMCOLINT: 1
     - _TOAO: 1
     - _TRANSMODE: 0
-    - _TangentDirMapIntensity: 1
-    - _TangentHighLightFeather: 0.25
-    - _TangentHighLightLowWidth: 0.1
-    - _TangentHighLightThreshold: 0.5
-    - _TangentHighLightWidth: 0.1
     - _TessellationBackFaceCullEpsilon: -1
     - _TessellationFactor: 0
     - _TessellationFactorMaxDistance: 50
@@ -826,9 +769,6 @@ Material:
     - _Emissive_Color: {r: 0, g: 0, b: 0, a: 1}
     - _FirstShadeMaskColor: {r: 0, g: 1, b: 1, a: 0.7}
     - _GlossColor: {r: 1, g: 1, b: 1, a: 1}
-    - _HairHighLightHighColor: {r: 1, g: 1, b: 1, a: 0}
-    - _HairHighLightLowColor: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 0}
-    - _HairHighLightRampST: {r: 1, g: 0, b: 1, a: 0}
     - _HighColor: {r: 0, g: 0, b: 0, a: 1}
     - _HighColor1: {r: 1, g: 1, b: 1, a: 1}
     - _HighColor2: {r: 1, g: 1, b: 1, a: 1}
@@ -847,7 +787,6 @@ Material:
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimLightColor2: {r: 1, g: 1, b: 1, a: 1}
     - _RimLightMaskColor: {r: 1, g: 0, b: 1, a: 0.9}
-    - _SSRimColor: {r: 1, g: 1, b: 1, a: 0}
     - _SecondShadeMaskColor: {r: 0, g: 0, b: 1, a: 0.6}
     - _SelfLitColor: {r: 1, g: 1, b: 1, a: 1}
     - _SelfShadowRealTimeShadowColor: {r: 1, g: 1, b: 1, a: 1}
@@ -856,9 +795,6 @@ Material:
     - _ShadowMapColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _ShadowTColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SphericalShadowNormalScale: {r: 1, g: 1, b: 1, a: 1}
-    - _SphericalTangentScale: {r: 1, g: 1, b: 1, a: 1}
-    - _TangentDirMapScale: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}

@@ -475,6 +475,8 @@ Shader "HDRP/Toon"
 		_HairShadowWidth ("Hair Shadow Width", Range(0, 100)) = 1
 		_HairShadowWidthRamp ("Hair Shadow Width Ramp", 2D) = "white" { }
 		_HairShadowRampMaxDistance ("Hair Shadow Ramp Max Distance", Float) = 10
+		_HairShadowBias ("Hair Shadow Bias", Range(0, 5)) = 0.0
+		_HairZOffset ("Hair Z Offset", Float) = 0.0
 		_FaceShadowBias ("Face Shadow Bias", Range(0, 5)) = 0.0
 
 		[Space]
@@ -499,9 +501,13 @@ Shader "HDRP/Toon"
 		[Toggle(_)]_HighLightMaskMapUV2 ("HighLight Mask Map UV2", Float) = 1
 		[NoScaleOffset]_HairHighLightGradientRamp ("Gradient Ramp(width 32)", 2D) = "gray" { }
 		_GradientRampIntensity ("Gradient Ramp Intensity", Range(0, 1)) = 0
+		[NoScaleOffset]_HairHighLightColorRamp ("Color Ramp", 2D) = "white" { }
 		[NoScaleOffset]_HairHighLightMaskRamp ("Mask Ramp", 2D) = "white" { }
 		[NoScaleOffset]_HairHighLightOffsetRamp ("Offset Ramp", 2D) = "gray" { }
-		_HairHighLightRampST ("RampST(XY:Mask ZW:Offset)", Vector) = (1, 0, 1, 0)
+		[NoScaleOffset]_HairHighLightWidthRamp ("Width Ramp", 2D) = "white" { }
+		_HairHighLightRampST ("Scale(Color / Mask / Offset / Width)", Vector) = (1, 1, 1, 1)
+		_HairHighLightRampUVOffset ("Offset(Color / Mask / Offset / Width)", Vector) = (0, 0, 0, 0)
+		[Toggle(_)]_EnableHairHighLightRampUVCameraSpace ("Enable Ramp UV Camera Space", Float) = 0
 
 		[Space]
 		_HighLightMaskGradientScale ("HighLight Mask Gradient Map Scale", Range(-1, 1)) = 0
@@ -535,7 +541,7 @@ Shader "HDRP/Toon"
 		_SSRimRampMaxDistance ("SS Rim Ramp Max Distance", Float) = 10
 		_SSRimLength ("SS Rim Length", Range(-2, 2)) = 0
 		[Toggle(_)]_SSRimInvertLightDir ("SS Rim Invert LightDir", Float) = 0
-		_SSRimFeather ("SS Rim Feather", Range(0.001, 5)) = 1
+		_SSRimFeather ("SS Rim Feather", Range(0, 2)) = 1
 		_SSRimInShadow ("SS Rim In Shadow", Range(0, 1)) = 0.5
 		_SSRimMask ("Mask(R:Width A:Intensity)", 2D) = "white" { }
 

@@ -108,7 +108,7 @@ float3 UTS_MainLight(LightLoopContext lightLoopContext, FragInputs input, int ma
 
     float hairShadow = 1.0;
     #ifdef JTRP_FACE_SHADER
-        GetJTRPHairShadow(hairShadow, input.positionSS.xyz, lightDirection);
+        GetJTRPHairShadow(hairShadow, posInput, lightDirection);
     #endif
     //v.2.0.6
     //Minmimum value is same as the Minimum Feather's value with the Minimum Step's value as threshold.

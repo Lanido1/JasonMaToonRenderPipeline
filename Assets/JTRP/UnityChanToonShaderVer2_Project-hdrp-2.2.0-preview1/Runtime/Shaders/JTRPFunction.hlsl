@@ -29,14 +29,19 @@ float3 SphericalShadowNormal(float3 positionRWS, float3 normalWS)
 	TEXTURE2D(_HairShadowWidthRamp);
 	TEXTURE2D(_JTRP_Mask_Map);
 	uniform float _HairShadowWidth;
+	uniform float _HairShadowBias;
 	uniform float _HairShadowRampMaxDistance;
 
-	void GetJTRPHairShadow(inout float shadowValue, float3 screenPos, float3 lightDirWS)
+	void GetJTRPHairShadow(inout float shadowValue, PositionInputs posInput, float3 lightDirWS)
 	{
 		float2 L = normalize(mul((float3x3)UNITY_MATRIX_V, lightDirWS).xy);
-		float hairShadowWidthRamp = SampleRampSignalLine(_HairShadowWidthRamp, LinearEyeDepth(screenPos.z) / _HairShadowRampMaxDistance).r;
-		float z = LOAD_TEXTURE2D_X(_JTRP_Mask_Map, screenPos.xy + L * hairShadowWidthRamp * _HairShadowWidth).x;
-		shadowValue = min(shadowValue, step(z, screenPos.z));
+		float viewDepth = distance(posInput.positionWS, GetCameraRelativePositionWS(_WorldSpaceCameraPos));
+		float hairShadowWidthRamp = SampleRampSignalLine(_HairShadowWidthRamp, viewDepth / _HairShadowRampMaxDistance).r;
+		float2 uv = posInput.positionSS + L * hairShadowWidthRamp * _HairShadowWidth;
+
+		float3 sceneWorldPos = GetWorldPosFromDepthBuffer(uv * _ScreenSize.zw, LOAD_TEXTURE2D_X(_JTRP_Mask_Map, uv).x);
+		float sceneViewDepth = distance(GetCameraRelativePositionWS(sceneWorldPos), GetCameraRelativePositionWS(_WorldSpaceCameraPos));
+		shadowValue = min(shadowValue, step(viewDepth, sceneViewDepth + _HairShadowBias));
 	}
 
 #endif
@@ -53,9 +58,14 @@ uniform half _HairHighLightIntensityInShadow;
 TEXTURE2D(_HairHighLightGradientRamp);
 uniform half _GradientRampIntensity;
 TEXTURE2D(_HighLightMaskMap);
+TEXTURE2D(_HairHighLightColorRamp);
 TEXTURE2D(_HairHighLightMaskRamp);
 TEXTURE2D(_HairHighLightOffsetRamp);
+TEXTURE2D(_HairHighLightWidthRamp);
 uniform float4 _HairHighLightRampST;
+uniform float4 _HairHighLightRampUVOffset;
+uniform half _EnableHairHighLightRampUVCameraSpace;
+
 uniform half _HighLightMaskMapUV2;
 uniform half _HighLightMaskGradientScale;
 uniform half _HighLightMaskIntensity;
@@ -117,9 +127,12 @@ void GetTangentHighLight(inout float3 color, float3x3 TBN, float3 worldPos, floa
 	
 
 	// Mask / Offset Ramp
-	float rampU = acos(dot(_HeadRightDirWS, normalize(ProjectOnPlane(sphericalNormal, _HeadUpDirWS)))) * 0.5 + 0.5;
-	float maskRamp = SampleRampSignalLine(_HairHighLightMaskRamp, frac(rampU * _HairHighLightRampST.x + _HairHighLightRampST.y)).r;
-	float offsetRamp = SampleRampSignalLine(_HairHighLightOffsetRamp, frac(rampU * _HairHighLightRampST.z + _HairHighLightRampST.w)).r * 2 - 1;
+	float3 rampReferenceDir = _EnableHairHighLightRampUVCameraSpace ? GetViewRightDir() : _HeadRightDirWS;
+	float rampU = acos(dot(rampReferenceDir, normalize(ProjectOnPlane(sphericalNormal, _HeadUpDirWS)))) * 0.5 + 0.5;
+	float3 colorRamp = SampleRampSignalLine(_HairHighLightColorRamp, frac(rampU * _HairHighLightRampST.x + _HairHighLightRampUVOffset.x)).rgb;
+	float maskRamp = SampleRampSignalLine(_HairHighLightMaskRamp, frac(rampU * _HairHighLightRampST.y + _HairHighLightRampUVOffset.y)).r;
+	float offsetRamp = SampleRampSignalLine(_HairHighLightOffsetRamp, frac(rampU * _HairHighLightRampST.z + _HairHighLightRampUVOffset.z)).r * 2 - 1;
+	float widthRamp = SampleRampSignalLine(_HairHighLightWidthRamp, frac(rampU * _HairHighLightRampST.w + _HairHighLightRampUVOffset.w)).r;
 	float gradientRamp = (SampleRampSignalLine(_HairHighLightGradientRamp, dot(sphericalNormal, _HeadUpDirWS) * 0.5 + 0.5).r * 2 - 1) * _GradientRampIntensity;
 
 	// R:gradient mark the start to the end of the highlight with 0-1; G Mask B Offset A Width
@@ -127,7 +140,7 @@ void GetTangentHighLight(inout float3 color, float3x3 TBN, float3 worldPos, floa
 	float mask = lerp(1, maskMap.g * maskRamp, _HighLightMaskIntensity);
 	float offsetMask = (maskMap.b * 2 - 1 + offsetRamp) * _HighLightMaskOffsetIntensity;
 	float alphaReduceMask = (1 - mask);
-	float widthMask = lerp(1, maskMap.a * 2, _HighLightMaskWidthIntensity);
+	float widthMask = lerp(1, maskMap.a * 2, _HighLightMaskWidthIntensity) * widthRamp;
 	float gradientMask = (maskMap.r - 0.5) * _HighLightMaskGradientScale + gradientRamp;
 	float threshold = lerp(_TangentHighLightThreshold, projectedThreshold + _TangentHighLightThreshold * 2 - 1, projectionIntensity);
 	// x: with offsetMask
@@ -137,7 +150,7 @@ void GetTangentHighLight(inout float3 color, float3x3 TBN, float3 worldPos, floa
 	float dotClamped = saturate(dotValueWithThreshold.x / width);
 	float hardness = saturate(_TangentHighLightFeather) * 0.5;
 
-	float3 highColor = _HairHighLightHighColor.rgb * lerp(1, color, _HairHighLightHighColor.a)
+	float3 highColor = _HairHighLightHighColor.rgb * lerp(1, color, _HairHighLightHighColor.a) * colorRamp
 	* smoothstep(0.5 - hardness, 0.5 + hardness, 1 - dotClamped - alphaReduceMask);
 	float3 lowColor = _HairHighLightLowColor.rgb * lerp(1, color, _HairHighLightLowColor.a)
 	* smoothstep(0.5 - 0.5, 0.5 + 0.5, 1 - saturate(dotValueWithThreshold.y / _TangentHighLightLowWidth) - alphaReduceMask * alphaReduceMask);
@@ -167,16 +180,18 @@ void GetSSRimLight(inout float3 color, PositionInputs posInput, float2 uv, float
 	if (!_EnableSSRim) return;
 
 	half4 mask = SAMPLE_TEXTURE2D(_SSRimMask, s_linear_clamp_sampler, uv);
-	half widthRamp = SampleRampSignalLine(_SSRimWidthRamp, posInput.linearDepth / _SSRimRampMaxDistance).r;
+	half widthRamp = SampleRampSignalLine(_SSRimWidthRamp, distance(posInput.positionWS, GetCameraRelativePositionWS(_WorldSpaceCameraPos)) / _SSRimRampMaxDistance).r;
 	
-	float2 L_View = normalize(mul((float3x3)UNITY_MATRIX_V, lightDirWS).xy) * (_SSRimInvertLightDir ? - 1: 1);
+	float2 L_View = normalize(mul((float3x3)UNITY_MATRIX_V, lightDirWS).xy) * (_SSRimInvertLightDir ? - 1 : 1);
 	float2 N_View = normalize(mul((float3x3)UNITY_MATRIX_V, normalDirWS).xy);
 	float lDotN = saturate(dot(N_View, L_View) + _SSRimLength);
 	float scale = mask.r * widthRamp * lDotN * _SSRimWidth * GetScaleWithHight();
 	float2 ssUV1 = clamp(posInput.positionSS + N_View * scale, 0, _ScreenParams.xy - 1);
 	
-	float depthDiff = LinearEyeDepth(LoadCameraDepth(ssUV1), _ZBufferParams) - posInput.linearDepth;
-	float intensity = smoothstep(0, _SSRimFeather, depthDiff);
+	float3 sceneWorldPos = GetWorldPosFromDepthBuffer(ssUV1 * _ScreenSize.zw, LoadCameraDepth(ssUV1));
+	float diff = distance(sceneWorldPos, GetAbsolutePositionWS(posInput.positionWS));
+
+	float intensity = smoothstep(0, _SSRimFeather, diff);
 	intensity *= mask.a * lerp(1, _SSRimInShadow, shadowValue) * _SSRimIntensity;
 	
 	color += _SSRimColor * intensity * lerp(1, color, _SSRimColor.a);
