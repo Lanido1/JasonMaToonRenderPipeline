@@ -187,11 +187,12 @@ void GetSSRimLight(inout float3 color, PositionInputs posInput, float2 uv, float
 	float lDotN = saturate(dot(N_View, L_View) + _SSRimLength);
 	float scale = mask.r * widthRamp * lDotN * _SSRimWidth * GetScaleWithHight();
 	float2 ssUV1 = clamp(posInput.positionSS + N_View * scale, 0, _ScreenParams.xy - 1);
+	float viewDepth = distance(posInput.positionWS, GetCameraRelativePositionWS(_WorldSpaceCameraPos));
 	
 	float3 sceneWorldPos = GetWorldPosFromDepthBuffer(ssUV1 * _ScreenSize.zw, LoadCameraDepth(ssUV1));
-	float diff = distance(sceneWorldPos, GetAbsolutePositionWS(posInput.positionWS));
+	float sceneViewDepth = distance(GetCameraRelativePositionWS(sceneWorldPos), GetCameraRelativePositionWS(_WorldSpaceCameraPos));
 
-	float intensity = smoothstep(0, _SSRimFeather, diff);
+	float intensity = smoothstep(viewDepth, viewDepth + _SSRimFeather, sceneViewDepth);
 	intensity *= mask.a * lerp(1, _SSRimInShadow, shadowValue) * _SSRimIntensity;
 	
 	color += _SSRimColor * intensity * lerp(1, color, _SSRimColor.a);
