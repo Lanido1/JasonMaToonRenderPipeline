@@ -55,7 +55,9 @@ JTRP
   -  边缘光
 - Timeline：角色动画、相机动画、表情动画、ABC
 - 实时物理：https://assetstore.unity.com/packages/tools/physics/magica-cloth-160144
+- HDRP / Lit Shader文档：https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@10.6/manual/Lit-Shader.html
 - 后处理：光线追踪GI / AO / SSR、Bloom、LUT、ToneMapping……
+  - LUT制作：https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@10.6/manual/LUT-Authoring-Resolve.html
 - 渲染输出
 
 ## DXR PBR + NPR Sample
