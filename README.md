@@ -3,7 +3,7 @@
 
 这是我业余时间开发的基于**Unity HDRP**并支持**DX12 RayTracing**的卡通渲染工具集，定位于实时生产影视级质量卡通渲染CG。
 
- 
+基于UTS扩展：https://github.com/unity3d-jp/UnityChanToonShaderVer2_Project
 
 **更多细节请关注专栏，此RM不做过多介绍且不常更新：https://www.zhihu.com/people/blackcat1312/posts**
 
