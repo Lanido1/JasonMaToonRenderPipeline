@@ -1,43 +1,57 @@
 # ![](README.assets/JTRPLogoLow.png)Jason Ma Toon Render Pipeline (JTRP)
 
 
-这是一个基于**Unity HDRP  + DirectX 12 Raytracing** 的**PBR + NPR**混合渲染管线，定位于**高品质实时渲染MMD、CG**内容创作的工具集。
+这是我业余时间开发的基于**Unity HDRP**并支持**DX12 RayTracing**的卡通渲染工具集，定位于实时生产影视级质量卡通渲染CG。
 
 
 
-**更多信息请关注专栏，此RM不做过多介绍且图文不再更新：https://www.zhihu.com/people/blackcat1312/posts**
+**更多细节请关注专栏，此RM不做过多介绍且不常更新：https://www.zhihu.com/people/blackcat1312/posts**
 
 B站：https://space.bilibili.com/42463206
 
-NPR交流群：1046752881
-
-## Features
-
-- **UTS2高度集成 + 扩展**
-- ……
+技术交流群：1046752881
 
 
 
-## Getting started
+## 三渲二入门
 
-Development environment: Unity 2020.3、[Other dependencies](https://github.com/Jason-Ma-233/JasonMaToonRenderPipeline/blob/master/Packages/manifest.json)
+![JTRP教程](README.assets/JTRP教程.jpg)
 
-Download and open the project, open [**Window > Render Pipeline > HD Render Pipeline Wizard**](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@8.2/manual/Render-Pipeline-Wizard.html).
+https://www.bilibili.com/video/BV1AA411A7RR/
 
-Select **HDRP+DXR**, click **Fix All**.
+版本控制
+- 为何使用Git：多人协作、版本控制
+- Github账户、仓库、LFS、存储和单文件大小限制
+- SourceTree教程：https://zhuanlan.zhihu.com/p/212302462、https://zhuanlan.zhihu.com/p/254909901
+- Clone、修改、暂存、推送、回滚、忽略
+- 或直接下载Zip：https://github.com/Jason-Ma-233/JasonMaToonRenderPipeline
 
+前置知识
+- 3D 美术、DCC 基础
+- Unity 安装、语言包、基本知识
+- Unity MMD：https://www.bilibili.com/video/BV1Db411e74e
+- Blender：
+  -  PMX导入插件：https://github.com/GiveMeAllYourCats/cats-blender-plugin
+  -  模型处理：拆分材质、脸单独材质、脸部球面化法线（可选）
 
-
-## Lit Toon Shader
-
-![image-20200401001020857](README.assets/image-20200401001020857.png)
-
-Video：https://www.bilibili.com/video/BV15g4y187sM
-
-- ……
-- NEW：基于Ramp的距离-宽度自适应Back Face Outline （已集成入UTS）
-
-
+JTRP
+- 三渲二概述：什么是PBR / NPR / 卡通渲染 / 三渲二、三渲二的常见特征与典型案例
+- UTS：https://github.com/unity3d-jp/UnityChanToonShaderVer2_Project/blob/release/urp/2.2.3/Documentation~/index.md
+- 参数概览
+- Outline
+  -  传统法线外扩
+  -  P+ 4 Unity：https://www.psoft.co.jp/jp/product/pencil/unity/、https://docs.psoft.co.jp/pus400w/jp/latest/
+- 使用JTRP进行角色卡通渲染
+  -  阴影色
+  -  光线追踪阴影
+  -  头发阴影
+  -  脸+头发球形阴影
+  -  头发高光
+  -  边缘光
+- Timeline：角色动画、相机动画、表情动画、ABC
+- 实时物理：https://assetstore.unity.com/packages/tools/physics/magica-cloth-160144
+- 后处理：光线追踪GI / AO / SSR、Bloom、LUT、ToneMapping……
+- 渲染输出
 
 ## DXR PBR + NPR Sample
 
