@@ -3,7 +3,7 @@
 
 这是我业余时间开发的基于**Unity HDRP**并支持**DX12 RayTracing**的卡通渲染工具集，定位于实时生产影视级质量卡通渲染CG。
 
-
+ 
 
 **更多细节请关注专栏，此RM不做过多介绍且不常更新：https://www.zhihu.com/people/blackcat1312/posts**
 
@@ -11,7 +11,7 @@ B站：https://space.bilibili.com/42463206
 
 技术交流群：1046752881
 
-
+ 
 
 ## 三渲二入门
 
@@ -19,10 +19,14 @@ B站：https://space.bilibili.com/42463206
 
 https://www.bilibili.com/video/BV1AA411A7RR/
 
+视频中你会学到：
+
 版本控制
 - 为何使用Git：多人协作、版本控制
 - Github账户、仓库、LFS、存储和单文件大小限制
-- SourceTree教程：https://zhuanlan.zhihu.com/p/212302462、https://zhuanlan.zhihu.com/p/254909901
+- SourceTree教程：
+  - https://zhuanlan.zhihu.com/p/212302462
+  - https://zhuanlan.zhihu.com/p/254909901
 - Clone、修改、暂存、推送、回滚、忽略
 - 或直接下载Zip：https://github.com/Jason-Ma-233/JasonMaToonRenderPipeline
 
@@ -40,7 +44,8 @@ JTRP
 - 参数概览
 - Outline
   -  传统法线外扩
-  -  P+ 4 Unity：https://www.psoft.co.jp/jp/product/pencil/unity/、https://docs.psoft.co.jp/pus400w/jp/latest/
+  -  P+ 4 Unity：https://www.psoft.co.jp/jp/product/pencil/unity/
+  -  P+在线文档：https://docs.psoft.co.jp/pus400w/jp/latest/
 - 使用JTRP进行角色卡通渲染
   -  阴影色
   -  光线追踪阴影
@@ -59,7 +64,7 @@ JTRP
 
 Video：https://www.bilibili.com/video/BV1Tr4y1F7Pv
 
-
+ 
 
 ## Light Weight ShaderGUI
 
